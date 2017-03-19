@@ -1,0 +1,133 @@
+`import models.genericgroup.OrganizeGroup
+`import models.genericgroup.GenericGroupVO
+`import japidviews._javatags.CommonUtils
+`import models.WePerson;
+
+
+
+`args OrganizeGroup rootGroup,GenericGroupVO groupVO 
+
+`WePerson curPerson = CommonUtils.currentPerson();
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<title>人员管理</title>
+<link rel="stylesheet" href="/public/css/main.css">
+<link rel="stylesheet" href="/public/css/font/iconfont.css">
+
+<script type="text/javascript" src="@{'/public/js/jquery.min.js'}"></script>
+<script src="@{'/public/js/jquery-form.js'}"></script>
+<script src="@{'/public/js/layer/layer.js'}"></script>
+<script src="@{'/public/js/validate.js'}"></script>
+<script src="/public/js/common.js"></script>
+<script src="@{'/public/js/back_member.js'}"></script>
+
+</head>
+<body class="b-gray">
+
+
+
+
+	<div class="header">
+		<div class="navbar-header pull-left">
+			<a href="#">STEM BMS Project Controller</a>
+		</div>
+		`if(rootGroup.id == 1l){
+			<div class="navbar-title pull-left">
+				<a href="@{Application.memberManage(1l)}">STEM顾问管理</a>
+			</div>
+			<ul class="navbar-other pull-right">
+				<li><a href="@{Application.index()}">任务分配管理</a></li>
+				<li><a href="@{Application.memberManage(2l)}">BMS代表管理</a></li>
+				<li class="user-menu"><a href="#">${curPerson.fullName} <i class="iconfont icon-xiajiantou"></i></a>
+					<div class="dropdown-menu">
+						<a class="reset-password">重置密码</a>
+						<a href="/stem/logout">立即退出</a>
+					</div>
+				</li>
+			</ul>
+		`}
+		
+		
+		`if(rootGroup.id == 2l){
+			<div class="navbar-title pull-left">
+				<a href="@{Application.memberManage(2l)}">BMS代表管理</a>
+			</div>
+			<ul class="navbar-other pull-right">
+				<li><a href="@{Application.index()}">任务分配管理</a></li>
+				<li><a href="@{Application.memberManage(1l)}">STEM顾问管理</a></li>
+				<li class="user-menu"><a href="#">${curPerson.fullName}<i class="iconfont icon-xiajiantou"></i></a>
+					<div class="dropdown-menu">
+						<a class="reset-password">重置密码</a>
+						<a href="/stem/logout">立即退出</a>
+					</div>
+				</li>
+			</ul>
+		
+		`}
+	</div>
+
+	<div id="sideBarBox" class="bs-sidebar">
+		<div class="side-header">
+		`if(rootGroup.id.equals(1l)){
+	        <a id="createGeneric" class="bluebtn" href="javascript:;">
+	            <i class="i i-05"></i> 区域
+	        </a>
+		`}
+		`if(rootGroup.id.equals(2l)){
+	        <a id="createGeneric" class="bluebtn" href="javascript:;">
+	            <i class="i i-05"></i> 部门
+	        </a>
+	        <a id="createClass" class="ml20 bluebtn" href="javascript:;">
+	            <i class="i i-05"></i> 区域
+	        </a>
+		`}
+        </div>
+
+        <div class="option-bar">
+            <a id="upGenericGroup" class="tdn up" href="javascript:;">上移</a>
+            <a id="downGenericGroup" class="tdn down" href="javascript:;">下移</a>
+            <a id="delGenericGroup" class="tdn del" href="javascript:;">删除</a>
+        </div>
+
+        <div class="nav-class-box">
+       		<div class="rnode">
+    			${show(groupVO)}
+	        </div>
+    	</div>
+
+		<a id="sidebarFoldBtn" class="bs-sidebar-fold" href="javascript:;" title="收起"></a>
+	</div>
+
+	<div id="genericGroupManageDiv" style="margin-left: 411px;">
+		`a Application.invokeGroupMemberManage(rootGroup.id,rootGroup.id==1l?"2":"1");
+	</div>
+	
+	
+	
+	
+`def show(GenericGroupVO genericGroupVO)
+	`for GenericGroupVO cgenericGroupVO:genericGroupVO.childGenericGroupVOList
+		<div class="ml20">
+			`if(cgenericGroupVO.id == rootGroup.id){
+				<div id="genericGroupNode_3" class="nav nav-on cnode rel genericGroupNode " data-id="${cgenericGroupVO.id}" data-table-type="${rootGroup.id == 1?"2":"1"}">
+    				<span class="node-name">${rootGroup.groupName}</span> 
+    			    <i class="i i-03 ui-right ui-arrow"></i>
+    			</div>
+			`}else{
+				<div id="genericGroupNode_${cgenericGroupVO.id}" class="nav cnode rel genericGroupNode " data-id="${cgenericGroupVO.id}" data-table-type="${rootGroup.id == 1?"3":cgenericGroupVO.isClazz?"3":"2"}">
+					<span class="node-name">${cgenericGroupVO.name}</span> 
+			    	<i class="i i-04 ui-tree"></i>	
+			    	<i class="i i-0${cgenericGroupVO.isClazz?9:8} ui-right ui-arrow"></i>
+			    </div>
+			`}
+	    	${show(cgenericGroupVO)}
+	    </div>
+	`
+`

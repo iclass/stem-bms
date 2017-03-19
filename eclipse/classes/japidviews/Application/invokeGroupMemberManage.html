@@ -1,0 +1,46 @@
+`import models.WePerson;
+`import models.genericgroup.GenericGroup;
+`import models.genericgroup.GroupMember;
+`import models.genericgroup.AbstractGroup;
+
+`args AbstractGroup group,List<GroupMember> groupMembers,String tbType
+
+		<div class="content-page">
+	        <div class="tab-header"> 
+	            <a class="ml20 ttab on memberTabSwitch" href="javascript:;"> 
+	            	`if (group.isOrganizeGroup()){
+		            	${group.groupName}
+	            	`}else if (group.isGenericiGroup()){
+	            		${group.rootGroup.groupName}-${group.groupName}
+	            	`}else if (group.isClazzGroup()){
+	            		${group.rootGroup.groupName}-${group.parentGroup.groupName}-${group.groupName}
+	            	`}
+	            	<span class="cor corblue flipy"></span>
+	            </a>
+	            
+	            `if(group.rootGroup.id.equals(1l) && group.isGenericiGroup()){
+		            <div class="tab-btn">
+		            	<a href="javascript:;" id="addMember">添加成员</a>
+		            	<a href="javascript:;" id="importMember">导入成员</a>
+		            </div>
+	            `}
+              	`if(group.rootGroup.id.equals(2l) && group.isClazzGroup()){
+		            <div class="tab-btn">
+		            	<a href="javascript:;" id="addMember">添加成员</a>
+		            	<a href="javascript:;" id="importMember">导入成员</a>
+		            </div>
+	            `}
+	        </div>
+	        <div class="t-option-bar" data-id="${group.id}">
+                <a id="resetPassword" class="tdl reset-pass" href="javascript:;">重置密码</a>
+                <a id="delMember" class="tdl del-member" href="javascript:;">删除</a>
+                <a id="moveMember" class="tdl move-member" href="javascript:;">移动</a>
+                <div class="t-search">
+	                <input type="text" class="t-input">
+	                <button type="submit" class=t-btn><i class="iconfont icon-fangdajing"></i></button>
+                </div>
+	        </div>
+	        <div id="genericGroupMemberManageDiv" class="bsTable">
+	        	`t groupMemberTable(groupMembers,tbType)
+	        </div>
+       </div>

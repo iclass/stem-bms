@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<title>BMS</title>
+
+	<link rel="stylesheet" href="./css/main.css">
+	<link rel="stylesheet" href="css/font/iconfont.css">
+</head>
+<body class="b-gray">
+	<div class="header">
+		<div class="navbar-header pull-left">
+			<a href="#">STEM BMS Project Controller</a>
+		</div>
+		<div class="navbar-title pull-left">
+			<a href="#">任务分配管理</a>
+		</div>
+		<ul class="navbar-other pull-right">
+			<li><a href="#">STEM顾问管理</a></li>
+			<li><a href="#">BMS代表管理</a></li>
+			<li><a href="#">总监 <i class="iconfont icon-xiajiantou"></i></a></li>
+		</ul>
+	</div>
+
+	<div id="sideBarBox" class="bs-sidebar">
+		<div class="side-header">
+	        <a id="createGeneric" class="bluebtn" href="javascript:;">
+	            <i class="i i-05"></i> 年级(系)
+	        </a>
+	        <a id="createClass" class="ml20 bluebtn" href="javascript:;">
+	            <i class="i i-05"></i> 班级
+	        </a>
+        </div>
+
+        <div class="option-bar">
+            <a id="upGenericGroup" class="tdn up" href="javascript:;">上移</a>
+            <a id="downGenericGroup" class="tdn down" href="javascript:;">下移</a>
+            <a id="delGenericGroup" class="tdn del" href="javascript:;">删除</a>
+        </div>
+
+        <div class="nav-class-box">
+       		<div class="rnode">
+    			<div id="genericGroupNode_3" class="nav nav-on cnode rel">
+    				<span class="node-name">义乌国际商贸学校</span> 
+    			    <i class="i ui-right ui-arrow"></i>
+    			</div>
+    			<div class="ml20">
+    				<div id="genericGroupNode_5" class="nav cnode rel">
+    					<span class="node-name">平面广告设计与制作</span> 
+    			    	<i class="i ui-right ui-arrow"></i>
+    			    </div>
+    				<div class="ml20">
+    					<div id="genericGroupNode_7" class="nav cnode rel">
+    						<span class="node-name">2015</span> 
+    			    		<i class="i i-04 ui-tree"></i>	
+    			    		<i class="i ui-right ui-arrow"></i>
+		    			</div>
+    					<div class="ml20">
+    						<div id="genericGroupNode_9" class="nav cnode rel">
+    							<span class="node-name">1美术设计与制作</span> 
+		    		    		<i class="i i-04 ui-tree"></i>	
+		    				    <i class="i ui-right ui-arrow"></i>
+			    			</div>
+    					</div>
+    					<div class="ml20">
+    						<div id="genericGroupNode_9" class="nav cnode rel">
+    							<span class="node-name">15（3+2）美术设计与制作</span> 
+		    		    		<i class="i i-04 ui-tree"></i>	
+		    				    <i class="i ui-right ui-arrow"></i>
+			    			</div>
+    					</div>
+    				</div>
+    			</div>
+    			<div class="ml20">
+    				<div id="genericGroupNode_5" class="nav cnode rel">
+    					<span class="node-name">平面广告设计与制作</span> 
+    			    	<i class="i ui-right ui-arrow"></i>
+    			    </div>
+    				<div class="ml20">
+    					<div id="genericGroupNode_7" class="nav cnode rel">
+    						<span class="node-name">2015</span> 
+    			    		<i class="i i-04 ui-tree"></i>	
+    			    		<i class="i ui-right ui-arrow"></i>
+		    			</div>
+    					<div class="ml20">
+    						<div id="genericGroupNode_9" class="nav cnode rel">
+    							<span class="node-name">15（3+2）美术设计与制作</span> 
+		    		    		<i class="i i-04 ui-tree"></i>	
+		    				    <i class="i ui-right ui-arrow"></i>
+			    			</div>
+    					</div>
+    				</div>
+    			</div>
+	        </div>
+    	</div>
+
+		<a id="sidebarFoldBtn" class="bs-sidebar-fold" href="javascript:;" title="收起"></a>
+	</div>
+
+	<div id="genericGroupManageDiv" style="margin-left: 411px;">
+		<div class="content-page">
+	        <div class="tab-header">
+	            <a class="ttab on" href="javascript:;" data-type="teacher"> 
+	            	BMS代表-Virology-南区 
+	            	<span class="cor corblue flipy"></span>
+	            </a>
+	            <div class="tab-btn">
+	            	<a href="javascript:;">添加成员</a>
+	            	<a href="javascript:;">导入成员</a>
+	            </div>
+	        </div>
+	        <div class="t-option-bar">
+                <a id="resetPassword" class="tdl reset-pass" href="javascript:;">重置密码</a>
+                <a id="delMember" class="tdl del-member" href="javascript:;">删除</a>
+        		<a id="addMember" class="tdl import-member" href="javascript:;">移动</a>
+        		<div class="t-search"><input type="text" class="t-input"><button type="submit" class=t-btn><i class="iconfont icon-fangdajing"></i></button></div>
+	        </div>
+	        <div class="bsTable">
+	        	<table width="100%" class="bs-table" cellpadding="5" cellspacing="0">
+					<thead>
+				    	<tr>
+				    		<th><input class="vn" type="checkbox" data="4"> </th>
+				        	<th>工号</th>
+				            <th>姓名</th>
+				            <th>账号/邮箱</th>
+				            <th>手机</th>
+				            <th><a href="javascript:;">全部职位<i class="iconfont icon-xiajiantou"></i></a></th>
+				            <th></th>
+				        </tr>
+				    </thead>
+				    <tbody class="bmstable">
+						<tr>
+				         	<td> <input class="vn" type="checkbox" data="4"> </td>
+							<td>2013525</td>
+							<td>yiwuAdmin</td>
+							<td>chenkai</td>
+							<td>1578551583854</td>
+							<td>语言</td>
+							<td><a href="javascript:;"><i class="iconfont icon-shezhi"></i></a></td>
+				        </tr>
+				        <tr>
+				         	<td> <input class="vn" type="checkbox" data="4"> </td>
+							<td>2013525</td>
+							<td>yiwuAdmin</td>
+							<td>chenkai</td>
+							<td>1578551583854</td>
+							<td>语言</td>
+							<td><a href="javascript:;"><i class="iconfont icon-shezhi"></i></a></td>
+				        </tr>
+				        <tr>
+				         	<td> <input class="vn" type="checkbox" data="4"> </td>
+							<td>2013525</td>
+							<td>yiwuAdmin</td>
+							<td>chenkai</td>
+							<td>1578551583854</td>
+							<td>语言</td>
+							<td><a href="javascript:;"><i class="iconfont icon-shezhi"></i></a></td>
+				        </tr>
+				        <tr>
+				         	<td> <input class="vn" type="checkbox" data="4"> </td>
+							<td>2013525</td>
+							<td>yiwuAdmin</td>
+							<td>chenkai</td>
+							<td>1578551583854</td>
+							<td>语言</td>
+							<td><a href="javascript:;"><i class="iconfont icon-shezhi"></i></a></td>
+				        </tr>
+				   	</tbody>
+				</table>
+	        </div>
+		</div>
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/layer/layer.js"></script>
+</body>
+</html>

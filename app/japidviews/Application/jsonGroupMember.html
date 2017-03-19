@@ -1,0 +1,9 @@
+`json
+
+`args Long groupId,String tbType
+
+{"succ": "true","html" : "${escapeJavaScript(htmlStr())}"}
+
+`def htmlStr 
+	`a Application.invokeGroupMemberManage(groupId,tbType);
+`

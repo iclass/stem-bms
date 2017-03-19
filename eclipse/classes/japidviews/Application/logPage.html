@@ -1,0 +1,145 @@
+`import models.WePerson;
+`import models.genericgroup.GenericGroup;
+`import models.genericgroup.GroupMember;
+`import models.genericgroup.AbstractGroup;
+`import models.stem.Task;
+`import models.stem.TaskPerson
+`import models.stem.TaskPersonLog
+`import japidviews._javatags.CommonUtils
+
+
+
+`args TaskPerson tp,String type
+
+`WePerson curPerson = CommonUtils.currentPerson();
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>日志</title>
+	<link rel="stylesheet" type="text/css" href="/public/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/public/css/font/iconfont.css">
+</head>
+<body class="bg">
+	<div class="header">
+		<div class="navbar-header pull-left">
+			<a href="#">STEM BMS Project Controller</a>
+		</div>
+		<div class="navbar-title pull-left">
+			<a href="/stem/index">任务分配管理</a>
+		</div>
+		<ul class="navbar-other pull-right">
+		`if(curPerson.job.equals("总监")){
+			<li><a href="@{Application.memberManage(1l)}">STEM顾问管理</a></li>
+			<li><a href="@{Application.memberManage(2l)}">BMS代表管理</a></li>
+		`}
+			<li class="user-menu"><a href="#">${curPerson.fullName} <i class="iconfont icon-xiajiantou"></i></a>
+				<div class="dropdown-menu">
+					<a class="reset-password">重置密码</a>
+					<a href="/stem/logout">立即退出</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+	`if("interview".equals(type)){
+		<div class="rizhi">
+			<div class="rizhi-top">
+				<a href="javascipt:;" onClick="javascript :history.back(-1);" class="rizhitop-back"><i class="iconfont icon-jiantou"></i>返回</a>
+				<p class="rizhitop-title"><i class="iconfont icon-liuyan"></i>访谈记录-日志</p>
+				<span class="rizhitop-name">BMS代表：${tp.repMember.number} ${tp.repMember.fullName}</span>
+			</div>
+			<div class="rizhi-main">
+				<div class="rizhi-text">
+					<textarea id="content"></textarea>
+					<a class="js-send-msg">发送</a>
+				</div>
+				<div class="rizhi-txt">
+				`List<TaskPersonLog> logs = TaskPersonLog.fetchByTpAndType(tp,type);
+				`for(TaskPersonLog log:logs){
+					<div class="rizhi-list clear">
+						<div class="rizhi-left">
+							<span class="rizhi-name">${log.creator.fullName}：</span>
+						</div>
+						<div class="rizhi-right">
+							<p>${log.content}<em>（${CommonUtils.formatDate(log.createTime,"yyyy-MM-dd")}）</em></p>
+						</div>
+					</div>
+				`}
+				</div>
+			</div>
+		</div>
+	`}
+	`if("evaluate".equals(type)){
+		<div class="rizhi">
+			<div class="rizhi-top">
+				<a href="javascipt:;" onClick="javascript :history.back(-1);" class="rizhitop-back"><i class="iconfont icon-jiantou"></i>返回</a>
+				<p class="rizhitop-title"><i class="iconfont icon-liuyan"></i>报告审查-日志</p>
+				<span class="rizhitop-name">BMS代表：${tp.repMember.number} ${tp.repMember.fullName}</span>
+			</div>
+			<div class="rizhi-main">
+				<div class="rizhi-text">
+					<textarea id="content"></textarea>
+					<a class="js-send-msg">发送</a>
+				</div>
+				<div class="rizhi-txt">
+				`List<TaskPersonLog> logs = TaskPersonLog.fetchByTpAndType(tp,type);
+				`for(TaskPersonLog log:logs){
+					<div class="rizhi-list clear">
+						<div class="rizhi-left">
+							<span class="rizhi-name">${log.creator.fullName}：</span>
+						</div>
+						<div class="rizhi-right">
+							<p>${log.content}<em>（${CommonUtils.formatDate(log.createTime,"yyyy-MM-dd")}）</em></p>
+						</div>
+					</div>
+				`}
+				</div>
+			</div>
+		</div>
+	
+	`}
+	<input type="hidden" id="type" value="${type}">
+	<input type="hidden" id="tpId" value="${tp.id}">
+	<script src="/public/js/jquery.min.js"></script>
+	<script src="/public/js/layer/layer.js"></script>
+	
+	
+	<script>
+	
+	
+		$(".js-send-msg").on("click",function(){
+			var content = $("#content").val().trim();
+			if(content.length < 1){
+				layer.msg("内容不能为空！");
+				return false;
+			}
+			
+			var tpId = $("#tpId").val(),	
+				type = $("#type").val();
+			
+			
+			
+			$.post("/stem/addLog",{tpId:tpId,content:content,type:type},function(json){
+				if(json.status == "true"){
+					window.location.reload();
+				}
+			})
+			
+			
+		})
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</script>
+</body>
+</html>

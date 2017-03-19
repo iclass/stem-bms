@@ -1,0 +1,17 @@
+# Application dependencies
+
+require:
+    - play
+    - cn.bran -> japid 0.9.6.2
+    - cn.bran -> japidplay 0.9.6.2
+    - com.google.code.javaparser -> javaparser 1.0.8
+#    - org.hibernate -> hibernate-validator 5.0.1.Final
+    - org.apache.poi -> poi-ooxml 3.16-beta2
+
+# My custom repositories
+repositories:
+    - bran:
+        type:       http
+        artifact:   "https://raw.githubusercontent.com/branaway/Japid/master/dist-lib/[module]-[revision].[ext]"
+        contains:
+            - cn.bran -> *

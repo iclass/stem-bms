@@ -1,0 +1,19 @@
+`import models.WePerson;
+`import models.genericgroup.GenericGroup;
+`import models.genericgroup.GroupMember;
+`import models.genericgroup.AbstractGroup;
+
+
+`args List<WePerson> persons
+`json
+
+
+{"succ": "true","html" : "${escapeJavaScript(htmlStr())}"}
+
+`def htmlStr 
+
+	`for(WePerson person:persons){
+		<option value="${person.id}">${person.fullName}</option>
+	`}
+
+`

@@ -1,0 +1,111 @@
+`import models.WePerson;
+`import models.genericgroup.GenericGroup;
+`import models.genericgroup.GroupMember;
+`import models.genericgroup.AbstractGroup;
+
+`args List<GroupMember> groupMembers,String tbType 
+
+	`if("1".equals(tbType)){
+		<table width="100%" class="bs-table" cellpadding="5" cellspacing="0">
+			<thead>
+		    	<tr>
+		    		<th><input class="vn" type="checkbox" id="checkAll"> </th>
+		        	<th>工号</th>
+		            <th>姓名</th>
+		            <th>账号/邮箱</th>
+		            <th>手机</th>
+		            <th><a href="javascript:;">全部部门<i class="iconfont icon-xiajiantou"></i></a></th>
+		            <th><a href="javascript:;">全部分区<i class="iconfont icon-xiajiantou"></i></a></th>
+		            <th><a href="javascript:;">全部职位<i class="iconfont icon-xiajiantou"></i></a></th>
+		            <th></th>
+		        </tr>
+		    </thead>
+		    <tbody class="bmstable">
+		     `for GroupMember groupMember:groupMembers
+ 				`WePerson person = groupMember.person;
+				<tr>
+		         	<td> <input class="vn" type="checkbox" data-id="${person.id}" name="id"> </td>
+					<td>${person.number}</td>
+					<td>${person.fullName}</td>
+					<td>${person.email}</td>
+					<td>${person.cellPhone}</td>
+					<td>${groupMember.abstractGroup.parentGroup.groupName}</td>
+					<td>${groupMember.abstractGroup.groupName}</td>
+					<td>${person.job}</td>
+					<td><a class="js-set-personInfo" data-id="${person.id}" data-number="${person.number}" data-name="${person.fullName}" data-phone="${person.cellPhone}" data-job="${person.job}"><i class="iconfont icon-shezhi"></i></a></td>
+		        </tr>
+		        `
+		   	</tbody>
+		</table>
+	
+	
+	`}
+	
+	
+	`if("2".equals(tbType)){
+		<table width="100%" class="bs-table" cellpadding="5" cellspacing="0">
+					<thead>
+				    	<tr>
+				    		<th><input class="vn" type="checkbox" id="checkAll"> </th>
+				        	<th>工号</th>
+				            <th>姓名</th>
+				            <th>账号/邮箱</th>
+				            <th>手机</th>
+				            <th><a href="javascript:;">全部分区<i class="iconfont icon-xiajiantou"></i></a></th>
+				            <th><a href="javascript:;">全部职位<i class="iconfont icon-xiajiantou"></i></a></th>
+				            <th></th>
+				        </tr>
+				    </thead>
+				    <tbody class="bmstable">
+				     `for GroupMember groupMember:groupMembers
+    						`WePerson person = groupMember.person;
+						<tr>
+				         	<td> <input class="vn" type="checkbox" data-id="${person.id}" name="id"> </td>
+							<td>${person.number}</td>
+							<td>${person.fullName}</td>
+							<td>${person.email}</td>
+							<td>${person.cellPhone}</td>
+							<td>${groupMember.abstractGroup.groupName}</td>
+							<td>${person.job}</td>
+							<td><a class="js-set-personInfo" data-id="${person.id}" data-number="${person.number}" data-name="${person.fullName}" data-phone="${person.cellPhone}" data-job="${person.job}"><i class="iconfont icon-shezhi"></i></a></td>
+				        </tr>
+				        `
+				   	</tbody>
+				</table>
+	
+	
+	`}
+	
+	
+	`if("3".equals(tbType)){
+	
+		<table width="100%" class="bs-table" cellpadding="5" cellspacing="0">
+					<thead>
+				    	<tr>
+				    		<th><input class="vn" type="checkbox" id="checkAll"> </th>
+				        	<th>工号</th>
+				            <th>姓名</th>
+				            <th>账号/邮箱</th>
+				            <th>手机</th>
+				            <th><a href="javascript:;">全部职位<i class="iconfont icon-xiajiantou"></i></a></th>
+				            <th></th>
+				        </tr>
+				    </thead>
+				    <tbody class="bmstable">
+				     `for GroupMember groupMember:groupMembers
+    						`WePerson person = groupMember.person;
+						<tr>
+				         	<td> <input class="vn" type="checkbox" data-id="${person.id}" name="id"> </td>
+							<td>${person.number}</td>
+							<td>${person.fullName}</td>
+							<td>${person.email}</td>
+							<td>${person.cellPhone}</td>
+							<td>${person.job}</td>
+							<td><a class="js-set-personInfo" data-id="${person.id}" data-number="${person.number}" data-name="${person.fullName}" data-phone="${person.cellPhone}" data-job="${person.job}"><i class="iconfont icon-shezhi"></i></a></td>
+				        </tr>
+				       `
+				   	</tbody>
+				</table>
+	
+	`}
+

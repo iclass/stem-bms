@@ -1,0 +1,151 @@
+`import models.WePerson;
+`import models.genericgroup.GenericGroup;
+`import models.genericgroup.GroupMember;
+`import models.genericgroup.AbstractGroup;
+`import models.stem.Task;
+`import models.stem.TaskPerson
+`import japidviews._javatags.CommonUtils
+
+
+`args Task task,List<TaskPerson> tps,WePerson curPerson,String orderType, String sortType
+
+
+
+`json
+
+
+{"succ": "true","html" : "${escapeJavaScript(htmlStr())}"}
+
+`def htmlStr 
+
+`boolean isAdmin = (curPerson.email != null && curPerson.email.equals("admin@iclass.com"))?true:false;
+
+			<div class="mainright-top">
+				<ul data-id="${task.id}">
+					<li class="selected" data-type="tab1"><a href="javaScript:;">BMS任务分配</a></li>
+					<li data-type="tab2"><a href="javaScript:;">最新访谈记录</a></li>
+					<li data-type="tab3"><a href="javaScript:;">最新PDF</a></li>
+				</ul>
+			</div>
+			<div class="mainright-all">
+				<div class="mainright-head clear">
+					<p class="mainright-title">${task.name}</p>
+					<div class="mainright-btn ${isAdmin?"":"grey"} ">
+							<a href="#" data-url="${task.updateTotalUrl}"  class="zongbiao-btn grey">总表</a>
+							<a href="#" class="refresh" data-id="${task.id}"><i class="iconfont icon-shuaxin"></i></a>
+							<p>更新于：${task.updateTotalTime == null?"暂无更新":CommonUtils.formatDate(task.updateTotalTime,"yyyy-MM-dd HH:mm")}</p>
+					</div>
+				</div>
+				<div class="mainright-table">
+					<table width="100%" cellpadding="5" cellspacing="0" class="download-table main-table" data-id="${task.id}">
+	  			  		<thead>
+					    	<tr>
+					    		<th></th>
+					        	<th class="presentation ${orderType.equals("tp.repMember.number")?(sortType.equals("asc")?"sx-on":"sx-off"):""}" data-type="tp.repMember.number">Rep<i class="iconfont icon-top"></i><i class="iconfont icon-bottom"></i></th>
+					            <th>STEM经理</th>
+					            <th>STEM顾问</th>
+					            <th class="presentation ${orderType.equals("tp.interviewUrl")?(sortType.equals("asc")?"sx-on":"sx-off"):""}" data-type="tp.interviewUrl">访谈记录<i class="iconfont icon-top"></i><i class="iconfont icon-bottom"></i></th>
+					            <th>记录审查</th>
+					            <th class="presentation ${isAdmin?"":"pre-center"} ${orderType.equals("tp.evaluateUrl")?(sortType.equals("asc")?"sx-on":"sx-off"):""}" data-type="tp.evaluateUrl">
+					            	`if(isAdmin){
+						            	<div class="pre-left">公式表格</div>
+					            	`}
+					            	<div class="pre-right">评估报告</div>
+					            	<i class="iconfont icon-top"></i><i class="iconfont icon-bottom"></i>
+				            	</th>
+					            <th>报告审查</th>
+					        </tr>
+				   	    </thead>	
+				    	<tbody class="bgwh ${isAdmin?"":"pre-center"}">
+				    		`int tpIndex = 1;
+					    		`for(TaskPerson tp:tps){
+									<tr data-id="${tp.id}">
+							         	<td>${tpIndex}</td>
+										<td><span class="rep-num">${tp.repMember.number}</span><span class="rep-name">${tp.repMember.fullName}</span></td>
+										<td>
+											<span class="stem-name">${tp.manager == null?"":tp.manager.fullName}</span>
+										`if(curPerson.job.equals("总监")){
+											<a href="javascipt:;" class="js-allot-manager" data-type="经理" title="分配"><i class="iconfont icon-caidan"></i></a>
+										`}
+										
+										</td>
+										<td>
+											<span class="stem-name">${tp.adviser == null?"":tp.adviser.fullName}</span>
+										`if(curPerson.job.equals("总监") || curPerson.job.equals("经理")){
+											<a href="javascipt:;" class="js-allot-adviser" data-type="顾问" title="分配"><i class="iconfont icon-caidan"></i></a>
+										`}
+										</td>
+										<td>
+										`if(tp.interviewUrl != null){
+											<a href="@{Application.download(tp.interviewUrl,tp.excelName)}" class="left-file" title="下载"><i class="iconfont icon-excel"></i></a>
+										`}
+											<a href="javascipt:void(0)" class="js-uploadExcel right-file">上传</a> 
+										</td>
+										<td>
+											`if(tp.talkResult == null){
+												<a href="javascipt:;" class="js-record-evalute"><i class="iconfont icon-closev-active"></i></a>
+												<a href="javascipt:;" class="js-record-evalute"><i class="iconfont icon-trues-active"></i></a>
+											`}else{
+												`if(tp.talkResult){
+													<a href="javascipt:;" class="js-record-evalute"><i class="iconfont icon-closev-active"></i></a>
+													<a href="javascipt:;" class="js-record-evalute"><i class="iconfont icon-trues-active green"></i></a>
+												`}else{
+													<a href="javascipt:;" class="js-record-evalute"><i class="iconfont icon-closev-active red"></i></a>
+													<a href="javascipt:;" class="js-record-evalute"><i class="iconfont icon-trues-active"></i></a>
+												`}
+											
+											`}
+											<a href="@{Application.logPage(tp.id,"interview")}" title="写日志"><i class="iconfont icon-liuyan"></i></a>
+										</td>
+										<td>
+											`if(isAdmin){
+												<div class="pre-left">
+												`if(tp.formulaUrl != null){
+													<a href="@{Application.download(tp.formulaUrl,tp.formulaName)}" title="下载"><i class="iconfont icon-excel"></i></a>
+												`}
+													<a href="javascipt:;" class="js-uploadFormula  right-file">上传</a> 
+												</div>
+											`}
+											<div class="pre-right">
+												`if(tp.evaluateUrl != null){
+													<a href="@{Application.download(tp.evaluateUrl,tp.pdfName)}" class="left-file" title="下载"><i class="iconfont icon-pdf1"></i></a>
+												`}
+												`if(isAdmin){
+													<a href="javascipt:;" class="js-uploadPdf right-file">上传</a>
+												`}
+											</div>
+										</td>
+										<td>
+											`if(tp.checkResult == null){
+												<a href="javascipt:;" class="js-report-evalute"><i class="iconfont icon-closev-active"></i></a>
+												<a href="javascipt:;" class="js-report-evalute"><i class="iconfont icon-trues-active"></i></a>
+											`}else{
+												`if(tp.checkResult){
+													<a href="javascipt:;" class="js-report-evalute"><i class="iconfont icon-closev-active"></i></a>
+													<a href="javascipt:;" class="js-report-evalute"><i class="iconfont icon-trues-active green"></i></a>
+												`}else{
+													<a href="javascipt:;" class="js-report-evalute"><i class="iconfont icon-closev-active red"></i></a>
+													<a href="javascipt:;" class="js-report-evalute"><i class="iconfont icon-trues-active"></i></a>
+												`}
+											
+											`}
+											<a href="@{Application.logPage(tp.id,"evaluate")}" title="写日志" ><i class="iconfont icon-liuyan"></i></a>
+										</td>
+							        </tr>
+							        `tpIndex ++;
+					    		`}
+					       
+						</tbody>
+					</table>
+					
+					<form id="uploadForm" style="display:none">
+							<input type="file" name="file" id="uploadFile">
+							<input type="hidden"  id="tpId" value="">
+							<input type="hidden"  id="fileType" value="">
+					</form>
+						
+				</div>
+			</div>
+			
+
+`

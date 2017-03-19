@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta content="width=device-width,inital-scarel=1" name="viewport" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<link rel="stylesheet" type="text/css" href="/public/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/public/css/font/iconfont.css">
+	<title>Login</title>
+</head>
+<body class="login-bg">
+	<div class="login-main">
+		<div class="login">
+			<div class="logo">
+				<img src="/public/img/logo.png">
+				<p>STEM BMS Project Controller</p>
+			</div>
+
+			<div class="login-in">
+				<div class="login-username">
+					<i class="iconfont icon-zhanghao"></i>
+					<input type="text" name="username" id="userName"  placeholder="账号"  />
+				</div>
+				<div class="login-password">
+					<i class="iconfont icon-mima"></i>
+					<input type="password" name="password" id="password" placeholder="密码"  />
+				</div>
+				<button class="login-submit"  title="登录">登录</button>
+			</div>
+			<p class="login-llq">为了获得更好的使用，建议使用谷歌浏览(chrome)<a href="#">立即下载浏览器</a></p>
+		</div>
+	</div>
+	<div class="login-mask"></div>
+
+	<script type="text/javascript" src="/public/js/jquery.js"></script>
+	<script type="text/javascript">
+	
+		 $(".login-submit").on('click',function(){
+			 var userName = $("#userName").val();
+			 var password = $("#password").val();
+			 if(userName.trim() == ""){
+				 alert("您输入的用户名有误！");
+				 return false;
+			 }
+			 if(password.trim() == ""){
+				 alert("您输入的密码有误！");
+				 return false;
+			 }
+			 $.post("/stem/login",{userName:userName,password:password},function(json){
+				 if(json.resultStatus){
+					 window.location.href = json.url;
+				 }else{
+					 alert(json.errorMsg)
+				 }
+			 })
+			 
+		 })
+	</script>
+</body>	
+</html>

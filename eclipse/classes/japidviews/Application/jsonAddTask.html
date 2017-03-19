@@ -1,0 +1,48 @@
+`import models.WePerson;
+`import models.genericgroup.GenericGroup;
+`import models.genericgroup.GroupMember;
+`import models.genericgroup.AbstractGroup;
+
+`json
+
+
+{"succ": "true","html" : "${escapeJavaScript(htmlStr())}"}
+
+`def htmlStr 
+
+	`AbstractGroup rootGroup = AbstractGroup.findById(2l);
+	<div class="layer-add">
+		<div class="layer-list clear">
+			<div class="layer-left">
+				<span class="m-txt">部门：</span>
+			</div>
+			`List<GenericGroup> ggList = GenericGroup.fetchGenericGroups(rootGroup);
+			
+			<div class="layer-right">
+				<select id="chooseGroup">
+				`for(GenericGroup gg:ggList){
+					<option value="${gg.id}">${gg.groupName}</option>
+				`}
+				</select>
+			</div>
+		</div>
+		<div class="layer-list clear">
+			<div class="layer-left">
+				<span class="m-txt">任务名称：</span>
+			</div>
+			<div class="layer-right">
+				<input type="text" id="taskName" >
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+`

@@ -1,0 +1,108 @@
+`import models.WePerson;
+`import models.genericgroup.GenericGroup;
+`import models.genericgroup.GroupMember;
+`import models.genericgroup.AbstractGroup;
+`import models.stem.Task;
+`import models.stem.TaskPerson
+`import japidviews._javatags.CommonUtils
+
+
+
+
+
+
+`AbstractGroup rootGroup = AbstractGroup.findById(2l);
+
+
+`WePerson curPerson = CommonUtils.currentPerson();
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>任务分配</title>
+	<link rel="stylesheet" type="text/css" href="/public/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/public/css/font/iconfont.css">
+</head>
+<body class="bg">
+	<div class="header">
+		<div class="navbar-header pull-left">
+			<a href="#">STEM BMS Project Controller</a>
+		</div>
+		<div class="navbar-title pull-left">
+			<a href="#">任务分配管理</a>
+		</div>
+		<ul class="navbar-other pull-right">
+		`if(curPerson.job.equals("总监")){
+			<li><a href="@{Application.memberManage(1l)}">STEM顾问管理</a></li>
+			<li><a href="@{Application.memberManage(2l)}">BMS代表管理</a></li>
+		`}
+			<li class="user-menu"><a href="#">${curPerson.fullName} <i class="iconfont icon-xiajiantou"></i></a>
+				<div class="dropdown-menu">
+					<a class="reset-password">重置密码</a>
+					<a href="/stem/logout">立即退出</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="main clear">
+		<div class="main-left">
+			<div class="mainleft-top">
+				<i class="iconfont icon-guanli"></i>
+				<p>任务分配管理</p>
+				<a href="javascipt:;" class="add-task">新建任务</a>
+			</div>
+			
+			`List<GenericGroup> ggList = GenericGroup.fetchGenericGroups(rootGroup);
+			`int i = 1;
+			`for(GenericGroup gg:ggList){
+				<div class="mainleft-all">
+					<div class="mainall-top clear"><i class="iconfont icon-guzhangleixing"></i><span>${gg.groupName}</span></div>
+					<ul class="js-task-list">
+						`List<Task> tasks = Task.fetchByGroup(gg);
+						`for(Task task:tasks){
+							<li data-id="${task.id}" class="${i== 1?"selected":""}"><a>${task.name}</a></li>
+							`i++;
+						`}
+					</ul>
+				</div>
+			`}
+		</div>
+		<div class="main-right">
+			<div class="loading-wrap">
+				<div class="ld-img"></div>
+				<div class="ld-txt">正在加载中......</div>
+			</div>
+		</div>
+	</div>
+	<script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/layer/layer.js"></script>
+    <script src="/public/js/common.js"></script>
+    <script src="/public/js/task.js"></script>
+    <script>
+		var taskId;
+		$(".js-task-list").each(function(){
+			if($(this).find("li").length > 0){
+				taskId = $(this).find("li").attr("data-id");
+			}
+		})
+		
+    	 $.ajax({
+    		 url: '/stem/jsonTask' ,
+ 		     type: 'POST',
+ 		     data:{taskId:taskId},
+    	   	 beforeSend:function(){
+    	   		$('.loading-wrap').show(); 
+		     },
+		    success: function (json) {
+		    	$('.loading-wrap').hide(); 
+		    	$(".main-right").html(json.html);
+		    }
+    	})
+    </script>
+</body>
+</html>
