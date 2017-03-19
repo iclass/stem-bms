@@ -92,18 +92,18 @@
 				        </tr>
 				    </thead>
 				    <tbody class="bmstable">
-				     `for GroupMember groupMember:groupMembers
+				        `for GroupMember groupMember:groupMembers
     						`WePerson person = groupMember.person;
-						<tr>
-				         	<td> <input class="vn" type="checkbox" data-id="${person.id}" name="id"> </td>
-							<td>${person.number}</td>
-							<td>${person.fullName}</td>
-							<td>${person.email}</td>
-							<td>${person.cellPhone}</td>
-							<td>${person.job}</td>
-							<td><a class="js-set-personInfo" data-id="${person.id}" data-number="${person.number}" data-name="${person.fullName}" data-phone="${person.cellPhone}" data-job="${person.job}"><i class="iconfont icon-shezhi"></i></a></td>
-				        </tr>
-				       `
+							<tr>
+					         	<td> <input class="vn" type="checkbox" data-id="${person.id}" name="id"> </td>
+								<td>${person.number}</td>
+								<td>${person.fullName}</td>
+								<td>${person.email}</td>
+								<td>${person.cellPhone}</td>
+								<td>${person.job}</td>
+								<td><a class="js-set-personInfo" data-id="${person.id}" data-number="${person.number}" data-name="${person.fullName}" data-phone="${person.cellPhone}" data-job="${person.job}"><i class="iconfont icon-shezhi"></i></a></td>
+					        </tr>
+				        `
 				   	</tbody>
 				</table>
 	

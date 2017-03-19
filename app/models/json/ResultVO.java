@@ -2,10 +2,9 @@ package models.json;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.Logger;
 
@@ -38,8 +37,7 @@ public class ResultVO {
 
 	public static final ObjectMapper mapper = new ObjectMapper();
 	static {
-		mapper.getSerializationConfig().setSerializationInclusion(
-				Inclusion.NON_NULL);
+		mapper.setSerializationInclusion(Include.NON_NULL);
 	}
 
 	public static String failed() {

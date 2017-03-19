@@ -7,16 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import models.json.JsonModel;
-
-import org.codehaus.jackson.map.ObjectMapper;
-
-import play.Logger;
-import play.Play;
-
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.FluentStringsMap;
 import com.ning.http.client.Response;
+
+import play.Logger;
 
 public class HTTPClientUtils {
 
@@ -26,7 +21,7 @@ public class HTTPClientUtils {
 		try {
 			final FluentStringsMap paramsMap = new FluentStringsMap(params);
 			final Response response = client.prepareGet(URL)
-					.setQueryParameters(paramsMap).execute().get();
+					.setQueryParams(paramsMap).execute().get();
 			final String responseBody = response.getResponseBody("utf8");
 			if (responseBody == null) {
 				Logger.error("[EndServer has not started.]");
@@ -48,7 +43,7 @@ public class HTTPClientUtils {
 		try {
 			final FluentStringsMap paramsMap = new FluentStringsMap(params);
 			final Response response = client.preparePost(URL)
-					.setParameters(paramsMap).execute().get();
+					.setFormParams(paramsMap).execute().get();
 			final String responseBody = response.getResponseBody("utf8");
 			if (responseBody == null) {
 				Logger.error("[EndServer has not started.]");

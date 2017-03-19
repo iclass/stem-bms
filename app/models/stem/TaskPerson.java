@@ -8,6 +8,12 @@ import javax.persistence.ManyToOne;
 import models.BaseModel;
 import models.WePerson;
 
+/**
+ * XXX setter 的写法都有问题， 不能用save。
+ * 
+ * @author bran
+ *
+ */
 @Entity
 public class TaskPerson extends BaseModel {
 

@@ -100,7 +100,7 @@ public class Application extends JapidController {
 		WePerson person = CommonUtils.currentPerson();
 		if (person != null) {
 			if (person.password.equals(DigestUtils.md5Hex(pass))) {
-				person.setPassword(newPass);
+				person.setPasswordWithDigest(newPass);
 				renderJSON(new JsonSucceed());
 			} else {
 				renderJSON(new JsonError("您输入的密码不正确"));
@@ -233,7 +233,7 @@ public class Application extends JapidController {
 	public static void resetPwdByMembers(Long[] memberIds, String password) {
 		List<WePerson> persons = WePerson.fetchPersonsByIds(Arrays.asList(memberIds));
 		for (WePerson person : persons) {
-			person.setPassword(password);
+			person.setPasswordWithDigest(password);
 		}
 		renderJSON(new JsonSucceed());
 	}
@@ -386,17 +386,10 @@ public class Application extends JapidController {
 		file.renameTo(newFile);
 
 		if (newFile.getName().endsWith(".xlsx")) {// 如果上传文件是excel则进行格式检查
-			StringBuffer sb = new StringBuffer();
 			try {
 				OncologyWorkbook wb = new OncologyWorkbook(file);
 			} catch (WorkbookException e) {
-				List<WorkbookFormatException> ex = e.formatExceptions;
-				for (WorkbookFormatException we : ex) {
-					sb.append(we.getMessage() + "\n");
-				}
-			}
-			if (StringUtils.isNotBlank(sb.toString())) {
-				renderJSON(new ResultVO().failed(sb.toString()));
+				renderJSON(new ResultVO().failed(e.getMessage()));
 			}
 		}
 
@@ -414,8 +407,13 @@ public class Application extends JapidController {
 		File tmpFile = new File("/tmp/" + tp.formulaName);
 		FileUtils.copyURLToFile(new URL(tp.formulaUrl), tmpFile);
 
+		// 这个地方需要catch exception， 如果是#WorkbookException, 需要显示给用户
 		if (state) {// 新增
-			QuarterlyMRScoreReport.insert(tmpFile);
+			try {
+				QuarterlyMRScoreReport.insert(tmpFile);
+			} catch (WorkbookException e) {
+				renderJSON(new ResultVO().failed(e.getMessage()));
+			}
 		} else {
 			QuarterlyMRScoreReport.deleteById(String.valueOf(tp.repMember.number));
 		}
@@ -429,6 +427,7 @@ public class Application extends JapidController {
 	}
 
 	// 刷新总表
+	// TODO: 这里需要catch WorkbookException
 	public static void batchMergeFiles(Long taskId) throws Exception {
 		Task task = Task.findById(taskId);
 		List<TaskPerson> tps = TaskPerson.fetchByPassEvaluate(task);
@@ -440,19 +439,24 @@ public class Application extends JapidController {
 				FileUtils.copyURLToFile(new URL(tp.formulaUrl), tmpFile);
 				tempFiles.add(tmpFile);
 			} catch (Exception e) {
+				e.printStackTrace();
 				Logger.error(e.getMessage());
 			}
 		});
 		if (!tempFiles.isEmpty()) {
-			QuarterlyMRScoreReport.insert(tempFiles);
+			try {
+				QuarterlyMRScoreReport.insert(tempFiles);
+				File outFile = new File("/tmp/out.xlsx");
+				QuarterlyMRScoreReport.dumpTo(outFile);
+				// 上传
+				URLResult result = FileUtil.uploadResource(outFile);
+				task.updateTotal(result.html);
+				renderJSON(new ResultVO().succeed());
+			} catch (Exception e) {
+				renderJSON(new ResultVO().failed(e.getMessage()));
+			}
 		}
 
-		File outFile = new File("/tmp/out.xlsx");
-		QuarterlyMRScoreReport.dumpTo(outFile);
-		// 上传
-		URLResult result = FileUtil.uploadResource(outFile);
-		task.updateTotal(result.html);
-		renderJSON(new ResultVO().succeed());
 	}
 
 	public static void download(String fileUrl, String fileName) {

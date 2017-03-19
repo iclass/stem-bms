@@ -8,13 +8,13 @@ package models.json;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.impl.JsonWriteContext;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.util.CharTypes;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.io.CharTypes;
+import com.fasterxml.jackson.core.json.JsonWriteContext;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * @author lil(li.li@iclass.com)
@@ -23,7 +23,7 @@ import org.codehaus.jackson.util.CharTypes;
  */
 public class StringUnicodeSerializer extends JsonSerializer<String> {
 	private final char[] HEX_CHARS = "0123456789ABCDEF".toCharArray();
-	private final int[] ESCAPE_CODES = CharTypes.getOutputEscapes();
+	private final int[] ESCAPE_CODES = CharTypes.get7BitOutputEscapes();
 
 	private void writeUnicodeEscape(JsonGenerator gen, char c)
 			throws IOException {

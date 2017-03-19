@@ -47,7 +47,15 @@ public class WePerson extends BaseModel {
 		this.save();
 	}
 
-	public WePerson setPassword(String password) {
+	/**
+	 * 在 setter 中含有额外逻辑处理是危险的。 play的 PropertyEnhancer 有可能把 person.pasword = "xxx" 改写成 person.setPassword().
+	 *  
+	 * 可以使用 play.PropertiesEnhancer.enabled=false 在 application.conf 中disable PropertyEnhancer, 避免任何意外。 
+	 * 
+	 * @param password
+	 * @return
+	 */
+	public WePerson setPasswordWithDigest(String password) {
 		this.password = DigestUtils.md5Hex(password);
 		return this.save();
 	}
@@ -68,8 +76,13 @@ public class WePerson extends BaseModel {
 	public static WePerson createPerson(String email, String password, String job) {
 		WePerson person = new WePerson();
 		person.email = email;
-		person.password = DigestUtils.md5Hex(password);
+		person.setPasswordWithDigest(password);
+		String ps = person.password;
+		if (!DigestUtils.md5Hex(password).equals(ps)){
+			throw new RuntimeException(DigestUtils.md5Hex(password) + " vs " + ps);
+		}
 		person.job = job;
+		person.cellPhone = "";
 		person.save();
 		return person;
 	}

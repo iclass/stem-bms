@@ -91,18 +91,20 @@
 			}
 		})
 		
-    	 $.ajax({
-    		 url: '/stem/jsonTask' ,
- 		     type: 'POST',
- 		     data:{taskId:taskId},
-    	   	 beforeSend:function(){
-    	   		$('.loading-wrap').show(); 
-		     },
-		    success: function (json) {
-		    	$('.loading-wrap').hide(); 
-		    	$(".main-right").html(json.html);
-		    }
-    	})
+		if (taskId) {
+	    	 $.ajax({
+	    		 url: '/stem/jsonTask' ,
+	 		     type: 'POST',
+	 		     data:{taskId:taskId},
+	    	   	 beforeSend:function(){
+	    	   		$('.loading-wrap').show(); 
+			     },
+			    success: function (json) {
+			    	$('.loading-wrap').hide(); 
+			    	$(".main-right").html(json.html);
+			    }
+	    	})
+		}
     </script>
 </body>
 </html>

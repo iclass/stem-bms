@@ -28,11 +28,11 @@ public class StartUp extends Job {
 	public void doJob() throws Exception {
 		// 启动时的系统操作
 		super.doJob();
-		flushPlat();
+		createAdminAndGroups();
 		initQuarterlyMRScoreReport();
 	}
 
-	public static void flushPlat() {
+	public static void createAdminAndGroups() {
 		Session session = (Session) JPA.em().getDelegate();
 		if (!session.getTransaction().isActive()) {
 			session.getTransaction().begin();
